@@ -1,12 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+require('dotenv').config();
 
 
 app.use(express.json());
 
 
-mongoose.connect('mongodb+srv://2006akhilraju2:tacTICFv2xYwWdlQ@main.g5x3ask.mongodb.net/?retryWrites=true&w=majority&appName=main', {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
