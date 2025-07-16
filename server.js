@@ -44,6 +44,19 @@ const postSchema = new mongoose.Schema({
     content: String
 });
 
+app.get('/', (req, res) => {
+  res.send(`
+    <h1>Blog API is Running</h1>
+    <p>Available endpoints:</p>
+    <ul>
+      <li><a href="/getPosts">GET /getPosts</a> - Fetch all posts</li>
+      <li>POST /addPosts - Create post (use Postman)</li>
+      <li>PATCH /post/:id - Update post</li>
+      <li>DELETE /delPosts/:id - Delete post</li>
+    </ul>
+  `);
+});
+
 
 const Post = mongoose.model('Post', postSchema);
 
