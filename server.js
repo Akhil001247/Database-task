@@ -7,12 +7,36 @@ require('dotenv').config();
 app.use(express.json());
 
 
+
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB', err));
+
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI is not defined in environment variables');
+  console.log('Current environment variables:', process.env);
+  process.exit(1);
+}
+
+// Modern connection without deprecated options
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('✅ MongoDB connected successfully'))
+  .catch(err => {
+    console.error('❌ MongoDB connection failed:', err.message);
+    process.exit(1);
+  });
+
+// Enhanced connection events
+mongoose.connection.on('connected', () => {
+  console.log(`🔗 Mongoose connected to: ${mongoose.connection.host}`);
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('❌ Mongoose connection error:', err);
+});
 
 
 const postSchema = new mongoose.Schema({
@@ -79,7 +103,7 @@ app.patch('/post/:id', async (req, res) => {
 });
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server running on port is ${PORT}`);
 });
