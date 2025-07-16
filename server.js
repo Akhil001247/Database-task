@@ -21,7 +21,7 @@ if (!process.env.MONGODB_URI) {
   process.exit(1);
 }
 
-// Modern connection without deprecated options
+
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('✅ MongoDB connected successfully'))
   .catch(err => {
@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGODB_URI)
     process.exit(1);
   });
 
-// Enhanced connection events
+
 mongoose.connection.on('connected', () => {
   console.log(`🔗 Mongoose connected to: ${mongoose.connection.host}`);
 });
